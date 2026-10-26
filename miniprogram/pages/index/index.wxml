@@ -1,0 +1,110 @@
+<view class="page">
+  <!-- 星空背景 -->
+  <view class="sky">
+    <view class="stars stars-s"></view>
+    <view class="stars stars-l"></view>
+    <view class="glow glow-a"></view>
+    <view class="glow glow-b"></view>
+  </view>
+
+  <view class="content" style="padding-top: {{statusBarHeight + 24}}px;">
+    <!-- 标题区 -->
+    <view class="hero">
+      <view class="hero-tag">{{info.game.genre}}</view>
+      <view class="hero-title">{{info.game.name}}</view>
+      <view class="hero-slogan">— {{info.game.slogan}} —</view>
+    </view>
+
+    <!-- 倒计时 -->
+    <view class="card countdown-card">
+      <block wx:if="{{!remain.done}}">
+        <view class="cd-label">距 全平台公测 还有</view>
+        <view class="cd-days">
+          <text class="cd-days-num">{{remain.days}}</text>
+          <text class="cd-days-unit">天</text>
+        </view>
+        <view class="cd-clock">
+          <view class="cd-cell"><text class="cd-num">{{remain.hours}}</text><text class="cd-unit">时</text></view>
+          <text class="cd-sep">:</text>
+          <view class="cd-cell"><text class="cd-num">{{remain.minutes}}</text><text class="cd-unit">分</text></view>
+          <text class="cd-sep">:</text>
+          <view class="cd-cell"><text class="cd-num">{{remain.seconds}}</text><text class="cd-unit">秒</text></view>
+        </view>
+      </block>
+      <view wx:else class="cd-done">
+        <view class="cd-done-title">公测已开启</view>
+        <view class="cd-done-sub">星临者，欢迎来到普罗米利亚大陆</view>
+      </view>
+
+      <view class="progress">
+        <view class="progress-bar" style="width: {{progress}}%;"></view>
+      </view>
+      <view class="progress-text">
+        <text>10.23 官宣定档</text>
+        <text>等待进度 {{progress}}%</text>
+        <text>11.26 公测</text>
+      </view>
+
+      <view class="platforms">
+        <text class="platform" wx:for="{{info.game.platforms}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="note">{{info.launchTimeNote}}</view>
+
+      <view class="actions">
+        <button class="btn btn-primary" bindtap="addToCalendar">添加日历提醒</button>
+        <button class="btn btn-ghost" open-type="share">分享给好友</button>
+      </view>
+    </view>
+
+    <!-- 数据 -->
+    <view class="stats">
+      <view class="stat" wx:for="{{info.stats}}" wx:key="label">
+        <view class="stat-value">{{item.value}}</view>
+        <view class="stat-label">{{item.label}}</view>
+      </view>
+    </view>
+
+    <!-- 公测福利 -->
+    <view class="section-title"><text class="dot"></text>公测福利</view>
+    <view class="card">
+      <view class="reward" wx:for="{{info.rewards}}" wx:key="title">
+        <view class="reward-title">{{item.title}}</view>
+        <view class="reward-desc">{{item.desc}}</view>
+      </view>
+    </view>
+
+    <!-- 兑换码 -->
+    <view class="section-title"><text class="dot"></text>兑换码</view>
+    <view class="card code-card" wx:for="{{info.codes}}" wx:key="code" data-code="{{item.code}}" bindtap="copyCode">
+      <view>
+        <view class="code">{{item.code}}</view>
+        <view class="code-reward">{{item.reward}} · {{item.source}}</view>
+      </view>
+      <view class="code-copy">复制</view>
+    </view>
+
+    <!-- 大事记 -->
+    <view class="section-title"><text class="dot"></text>旅途大事记</view>
+    <view class="card">
+      <view class="tl-item {{item.highlight ? 'tl-highlight' : ''}}" wx:for="{{info.timeline}}" wx:key="date">
+        <view class="tl-axis"><view class="tl-node"></view></view>
+        <view class="tl-body">
+          <view class="tl-date">{{item.date}}</view>
+          <view class="tl-title">{{item.title}}</view>
+          <view class="tl-desc">{{item.desc}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 角色 -->
+    <view class="section-title"><text class="dot"></text>已曝光伙伴</view>
+    <view class="chars">
+      <text class="char" wx:for="{{info.characters}}" wx:key="*this">{{item}}</text>
+    </view>
+
+    <view class="footer">
+      <view>资讯整理自官方公告及各大游戏媒体 · 更新于 {{info.updatedAt}}</view>
+      <view>非官方应用</view>
+    </view>
+  </view>
+</view>
